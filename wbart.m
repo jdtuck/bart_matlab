@@ -1,4 +1,4 @@
-function out = wbart(x_train, y_train, x_test, opts)
+function obj = wbart(x_train, y_train, x_test, opts)
 %WBART BART for a continuous outcome (Gaussian errors).
 %
 %   out = wbart(x_train, y_train)
@@ -125,4 +125,5 @@ if ~opts.savedraws
     out.yhat_train = [];
     out.yhat_test  = [];
 end
+obj = bart_model(out);
 end
