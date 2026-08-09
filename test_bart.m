@@ -43,27 +43,27 @@ x  = rand(n,p);  ytrue = f0(x);  y = ytrue + 1.0*randn(n,1);
 xt = rand(200,p); yt = f0(xt);
 o  = bartOptions('ntree',50,'ndpost',400,'nskip',200,'printevery',0);
 tic; m1 = wbart(x, y, xt, o); t1 = toc;
-fprintf('time %.1fs  accept G/P/C = %.2f %.2f %.2f\n', t1, m1.accept);
+fprintf('time %.1fs  accept G/P/C = %.2f %.2f %.2f\n', t1, m1.model.accept);
 fprintf('train corr %.3f  RMSE(f) %.3f  (sd(f0)=%.2f)\n', ...
-        corr(m1.yhat_train_mean(:), ytrue), ...
-        sqrt(mean((m1.yhat_train_mean(:)-ytrue).^2)), std(ytrue));
+        corr(m1.model.yhat_train_mean(:), ytrue), ...
+        sqrt(mean((m1.model.yhat_train_mean(:)-ytrue).^2)), std(ytrue));
 fprintf('test  corr %.3f  RMSE(f) %.3f\n', ...
-        corr(m1.yhat_test_mean(:), yt), sqrt(mean((m1.yhat_test_mean(:)-yt).^2)));
-fprintf('sigma post mean %.3f (true 1.0)\n', mean(m1.sigma));
-fprintf('varprob first 6: %s\n', mat2str(round(1000*m1.varprob(1:6))/1000));
+        corr(m1.model.yhat_test_mean(:), yt), sqrt(mean((m1.model.yhat_test_mean(:)-yt).^2)));
+fprintf('sigma post mean %.3f (true 1.0)\n', mean(m1.model.sigma));
+fprintf('varprob first 6: %s\n', mat2str(round(1000*m1.model.varprob(1:6))/1000));
 
 % bartPredict must reproduce the in-sample test fit
-pr = bartPredict(m1, xt);
+pr = bartPredict(m1.model, xt);
 fprintf('bartPredict vs stored test fit, max abs diff: %.2e\n', ...
-        max(abs(pr.yhat_mean - m1.yhat_test_mean)));
+        max(abs(pr.yhat_mean - m1.model.yhat_test_mean)));
 
 fprintf('\n=== 4. linear check + sparse prior ===\n');
 n = 300; x = randn(n,20); y = 2*x(:,1) - 1.5*x(:,2) + 0.5*randn(n,1);
 o = bartOptions('ntree',50,'ndpost',300,'nskip',200,'printevery',0,'sparse',true);
 m2 = wbart(x, y, [], o);
 fprintf('corr with truth %.3f, sigma %.3f (true 0.5)\n', ...
-        corr(m2.yhat_train_mean(:), 2*x(:,1)-1.5*x(:,2)), mean(m2.sigma));
-[~, top] = sort(m2.varprob, 'descend');
+        corr(m2.model.yhat_train_mean(:), 2*x(:,1)-1.5*x(:,2)), mean(m2.model.sigma));
+[~, top] = sort(m2.model.varprob, 'descend');
 fprintf('top 3 variables (sparse): %s (expect 1 and 2)\n', mat2str(top(1:3)));
 
 fprintf('\n=== 5. pbart / lbart ===\n');
