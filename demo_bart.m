@@ -10,7 +10,7 @@
 % doi:10.18637/jss.v097.i01
 
 close all; more off;
-DOPLOT = false;
+DOPLOT = true;
 rand('state', 2024); randn('state', 2024);          %#ok<RAND>
 
 % Small settings so the demo runs in a couple of minutes.  For real work use
