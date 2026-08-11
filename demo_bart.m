@@ -145,7 +145,7 @@ end
 %% ----------------------------------------------------- prediction at new data
 fprintf('\n===== 5. Predicting from stored posterior trees =====\n');
 xnew = rand(4, 10);
-pr   = bartPredict(fit1, xnew);
+pr   = bartPredict(fit1.model, xnew);
 fprintf('posterior mean of f at 4 new points: %s\n', sprintf('%.2f ', pr.model.yhat_mean));
 fprintf('posterior sd at those points:        %s\n', sprintf('%.2f ', std(pr.model.yhat, 0, 1)));
 fprintf('\ndone.\n');
