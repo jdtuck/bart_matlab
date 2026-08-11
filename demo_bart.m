@@ -146,8 +146,8 @@ end
 fprintf('\n===== 5. Predicting from stored posterior trees =====\n');
 xnew = rand(4, 10);
 pr   = bartPredict(fit1, xnew);
-fprintf('posterior mean of f at 4 new points: %s\n', sprintf('%.2f ', pr.yhat_mean));
-fprintf('posterior sd at those points:        %s\n', sprintf('%.2f ', std(pr.yhat, 0, 1)));
+fprintf('posterior mean of f at 4 new points: %s\n', sprintf('%.2f ', pr.model.yhat_mean));
+fprintf('posterior sd at those points:        %s\n', sprintf('%.2f ', std(pr.model.yhat, 0, 1)));
 fprintf('\ndone.\n');
 
 % (helper functions live in bartPctl.m and corrPearson.m so that this file
