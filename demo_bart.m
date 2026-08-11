@@ -32,21 +32,21 @@ tic; fit1 = wbart(x, y, xt, opts); t = toc;
 
 fprintf('fitted in %.1f s\n', t);
 fprintf('sigma: posterior mean %.3f, 95%% CI [%.3f %.3f], truth %.2f\n', ...
-        mean(fit1.sigma), bartPctl(fit1.sigma, 2.5), bartPctl(fit1.sigma, 97.5), sigma_true);
+        mean(fit1.model.sigma), bartPctl(fit1.model.sigma, 2.5), bartPctl(fit1.model.sigma, 97.5), sigma_true);
 fprintf('out-of-sample RMSE for f(x): %.3f   (sd of f is %.2f)\n', ...
-        sqrt(mean((fit1.yhat_test_mean(:) - f0(xt)).^2)), std(f0(xt)));
+        sqrt(mean((fit1.model.yhat_test_mean(:) - f0(xt)).^2)), std(f0(xt)));
 fprintf('share of splits per covariate (x1..x10):\n   %s\n', ...
-        sprintf('%.3f ', fit1.varprob));
+        sprintf('%.3f ', fit1.model.varprob));
 fprintf('-> the five relevant covariates take most of the splits\n');
 
 % Posterior credible intervals cover the truth at roughly the nominal rate.
-lo = bartPctl(fit1.yhat_test, 2.5);
-hi = bartPctl(fit1.yhat_test, 97.5);
+lo = bartPctl(fit1.model.yhat_test, 2.5);
+hi = bartPctl(fit1.model.yhat_test, 97.5);
 fprintf('coverage of pointwise 95%% intervals for f(x): %.3f\n', ...
         mean(f0(xt) >= lo(:) & f0(xt) <= hi(:)));
 
 if DOPLOT
-    figure; plot(f0(xt), fit1.yhat_test_mean, '.'); hold on;
+    figure; plot(f0(xt), fit1.model.yhat_test_mean, '.'); hold on;
     plot(xlim, xlim, 'r-'); xlabel('true f(x)'); ylabel('posterior mean');
     title('wbart: out-of-sample fit');
 end
