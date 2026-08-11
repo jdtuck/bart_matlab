@@ -1,3 +1,5 @@
+[![Pipeline Status](https://github.com/jdtuck/bart_matlab/actions/workflows/matlab.yml/badge.svg)](https://github.com/jdtuck/bart_matlab/actions/workflows/matlab.yml)
+
 # BART for MATLAB
 
 Bayesian Additive Regression Trees with flexible nonparametric modeling of
